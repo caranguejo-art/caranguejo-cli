@@ -1,0 +1,26 @@
+{
+  "name": "@caranguejo/cli",
+  "version": "1.0.0",
+  "description": "Command-line client for the Caranguejo Developer API.",
+  "type": "module",
+  "bin": {
+    "caranguejo": "./dist/index.js"
+  },
+  "files": ["dist", "install.sh", "README.md"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsx src/index.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["caranguejo", "ai", "image-generation", "cli"],
+  "license": "MIT",
+  "dependencies": {
+    "@caranguejo/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.12.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}
