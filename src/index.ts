@@ -153,8 +153,9 @@ async function main(): Promise<void> {
     }
   } catch (e) {
     if (e instanceof CaranguejoApiError) {
-      if (json) { printJson({ success: false, error: { code: e.code, message: e.message } }); process.exit(1); }
-      fail(`${e.code}: ${e.message}`);
+      const err = e as CaranguejoApiError;
+      if (json) { printJson({ success: false, error: { code: err.code, message: err.message } }); process.exit(1); }
+      fail(`${err.code}: ${err.message}`);
     }
     fail((e as Error).message);
   }
@@ -301,7 +302,7 @@ async function runJob(cl: CaranguejoClient, create: () => Promise<Generation>, f
   const done = await cl.waitForGeneration(job.id, {
     intervalMs: 3000,
     timeoutMs: 10 * 60_000,
-    onPoll: (g) => { if (!json && g.status === "processing") process.stderr.write("."); },
+    onPoll: (g: { status?: string }) => { if (!json && g.status === "processing") process.stderr.write("."); },
   });
   if (!json) process.stderr.write("\n");
   outputGeneration(done, json);
